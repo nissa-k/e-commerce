@@ -1,0 +1,24 @@
+# Environment / secrets
+.env
+
+# Uploads / generated content
+public/uploads/
+public/uploads/*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Dependencies (si tu ajoutes Composer plus tard)
+vendor/
+
+# Node (si tu ajoutes npm plus tard)
+node_modules/
