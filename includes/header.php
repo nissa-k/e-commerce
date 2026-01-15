@@ -1,7 +1,12 @@
 <?php
 require_once __DIR__ . "/auth.php";
 require_once __DIR__ . "/functions.php";
+
+// si on est dans /admin/, il faut remonter d’un niveau pour accéder aux pages racine
+$IN_ADMIN = str_contains($_SERVER['SCRIPT_NAME'], '/admin/');
+$BASE_HREF = $IN_ADMIN ? '../' : '';
 cartInit();
+
 ?>
 <!doctype html>
 <html lang="fr">
@@ -14,7 +19,7 @@ cartInit();
 <body>
 <header class="topbar">
   <div class="container">
-    <a class="brand" href="index.php">E-Courses</a>
+    <a class="brand" href="<?= $BASE_HREF ?>index.php">E-Courses</a>
 
     <span>
       <?= e($_SESSION['user']['name'] ?? '') ?>
@@ -24,14 +29,14 @@ cartInit();
     </span>
 
     <nav class="nav">
-      <a href="courses.php">Catalogue</a>
-      <a href="cart.php">Panier (<?= cartCount() ?>)</a>
-      <a href="about.php">Qui sommes-nous ?</a>
+      <a href="<?= $BASE_HREF ?>courses.php">Catalogue</a>
+      <a href="<?= $BASE_HREF ?>cart.php">Panier (<?= cartCount() ?>)</a>
+      <a href="<?= $BASE_HREF ?>about.php">Qui sommes-nous ?</a>
 
       <?php if (isLoggedIn()): ?>
-        <a href="my_courses.php">Mes cours</a>
+        <a href="<?= $BASE_HREF ?>my_courses.php">Mes cours</a>
         <?php if (isAdmin()): ?>
-          <a href="admin/index.php">Admin</a>
+          <a href="<?= $BASE_HREF ?>admin/index.php">Admin</a>
         <?php endif; ?>
         <span class="muted">| <?= e($_SESSION['user']['name']) ?></span>
         <a href="logout.php">Déconnexion</a>

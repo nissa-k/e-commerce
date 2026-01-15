@@ -1,7 +1,7 @@
 <?php
 $pageTitle = "Admin - Edit";
 require __DIR__ . "/../config/db.php";
-require __DIR__ . "/../includes/header.php";
+require __DIR__ . "includes/header.php";
 requireAdmin();
 
 $id = (int)($_GET['id'] ?? 0);
