@@ -57,6 +57,7 @@ $courses = $stmt->fetchAll();
       <a class="btn" href="course.php?slug=<?= urlencode($c['slug']) ?>">Voir</a>
 
       <form method="post" action="cart.php" style="display:inline">
+        <?= csrf_field() ?>
         <input type="hidden" name="action" value="add">
         <input type="hidden" name="course_id" value="<?= (int)$c['id'] ?>">
         <button class="btn btn-primary" type="submit">Ajouter</button>

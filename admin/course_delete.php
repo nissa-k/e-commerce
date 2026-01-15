@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . "/../config/db.php";
 require __DIR__ . "/../includes/auth.php";
-require __DIR__ . "/../includes/funcions.php";
+require __DIR__ . "/../includes/functions.php";
 
 requireAdmin();
 

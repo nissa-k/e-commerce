@@ -33,6 +33,7 @@ foreach ($courses as $c) {
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  verify_csrf();
   $address = trim($_POST['billing_address'] ?? '');
   $city = trim($_POST['city'] ?? '');
   $postal = trim($_POST['postal_code'] ?? '');
@@ -89,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <p>Total : <strong><?= number_format($total, 2) ?> €</strong></p>
 
 <form method="post">
+  <?= csrf_field() ?>
   <p>
     <input name="billing_address" placeholder="Adresse de facturation" required>
   </p>

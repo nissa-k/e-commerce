@@ -36,6 +36,7 @@ $pageTitle = $course['title'];
 <p><strong><?= number_format((float)$course['price'], 2) ?> €</strong></p>
 
 <form method="post" action="cart.php">
+  <?= csrf_field() ?>
   <input type="hidden" name="action" value="add">
   <input type="hidden" name="course_id" value="<?= (int)$course['id'] ?>">
   <button class="btn btn-primary" type="submit">Ajouter au panier</button>

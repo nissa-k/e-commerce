@@ -19,6 +19,7 @@ $cats = $pdo->query("SELECT id,name FROM categories ORDER BY name")->fetchAll();
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  verify_csrf();
   $title = trim($_POST['title'] ?? '');
   $slug = trim($_POST['slug'] ?? '');
   $desc = trim($_POST['description'] ?? '');
@@ -66,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h1>Modifier un cours</h1>
 
 <form method="post" enctype="multipart/form-data">
+  <?= csrf_field() ?>
   <p><input name="title" value="<?= e($course['title']) ?>" required></p>
   <p><input name="slug" value="<?= e($course['slug']) ?>" required></p>
 

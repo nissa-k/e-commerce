@@ -6,6 +6,7 @@ require __DIR__ . "/includes/header.php";
 $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  verify_csrf();
   $email = trim($_POST['email'] ?? '');
   $password = $_POST['password'] ?? '';
 
@@ -28,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h1>Connexion</h1>
 
 <form method="post">
+  <?= csrf_field() ?>
   <p><input name="email" placeholder="Email" required></p>
   <p><input type="password" name="password" placeholder="Mot de passe" required></p>
   <button class="btn btn-primary">Se connecter</button>

@@ -6,6 +6,7 @@ require __DIR__ . "/includes/header.php";
 cartInit();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  verify_csrf();
   $action = $_POST['action'] ?? '';
   $courseId = (int)($_POST['course_id'] ?? 0);
 
@@ -72,6 +73,7 @@ if ($ids) {
         <td><?= number_format($line, 2) ?> €</td>
         <td>
           <form method="post">
+            <?= csrf_field() ?>
             <input type="hidden" name="action" value="remove">
             <input type="hidden" name="course_id" value="<?= (int)$c['id'] ?>">
             <button class="btn btn-danger" type="submit">Supprimer</button>
@@ -87,6 +89,7 @@ if ($ids) {
   <div style="display:flex;gap:10px;flex-wrap:wrap;">
     <a class="btn btn-primary" href="checkout.php">Passer commande</a>
     <form method="post">
+      <?= csrf_field() ?>
       <input type="hidden" name="action" value="clear">
       <button class="btn" type="submit">Vider le panier</button>
     </form>

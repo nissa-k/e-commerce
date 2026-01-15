@@ -8,6 +8,7 @@ $cats = $pdo->query("SELECT id, slug, name FROM categories ORDER BY name")->fetc
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  verify_csrf();
   $title = trim($_POST['title'] ?? '');
   $slug = trim($_POST['slug'] ?? '');
   $desc = trim($_POST['description'] ?? '');
@@ -52,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h1>Ajouter un cours</h1>
 
 <form method="post" enctype="multipart/form-data">
+  <?= csrf_field() ?>
   <p><input name="title" placeholder="Titre" required></p>
   <p><input name="slug" placeholder="Slug (unique, ex: php-crud-admin)" required></p>
 

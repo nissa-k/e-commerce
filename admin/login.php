@@ -1,11 +1,12 @@
 <?php
 require __DIR__ . "/../config/db.php";
 require __DIR__ . "/../includes/auth.php";
-require __DIR__ . "/../includes/funcions.php";
+require __DIR__ . "/../includes/functions.php";
 
 $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  verify_csrf();
   $email = trim($_POST['email'] ?? '');
   $password = $_POST['password'] ?? '';
 
@@ -28,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h1>Connexion Admin</h1>
 
 <form method="post">
+  <?= csrf_field() ?>
   <input name="email" placeholder="Email admin" required><br>
   <input type="password" name="password" placeholder="Mot de passe" required><br>
   <button class="btn btn-primary">Se connecter</button>
