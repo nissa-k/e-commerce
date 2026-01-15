@@ -6,19 +6,27 @@ require __DIR__ . "/includes/header.php";
 $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // Mitigation brute-force simple ralentie la page login de 200ms
+  usleep(200000); 
   verify_csrf();
   $email = trim($_POST['email'] ?? '');
   $password = $_POST['password'] ?? '';
 
-  $stmt = $pdo->prepare("SELECT id, name, email, password, role FROM users WHERE email = :email");
-  $stmt->execute(['email' => $email]);
-  $user = $stmt->fetch();
+  if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+  $error = "Identifiants invalides";
+  } else {
+      $stmt = $pdo->prepare("SELECT id, name, email, password, role FROM users WHERE email = :email");
+      $stmt->execute(['email' => $email]);
+      $user = $stmt->fetch();
+  }
 
   if (!$user || !password_verify($password, $user['password'])) {
     $error = "Identifiants invalides";
   } else {
+    
     unset($user['password']);
     $_SESSION['user'] = $user;
+    session_regenerate_id(true);
     flash('success', "Bienvenue " . $user['name'] . " !");
     header("Location: index.php");
     exit;
