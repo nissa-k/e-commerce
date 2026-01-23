@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $pdo->commit();
 
       cartClear();
-      flash('success', "Paiement simulé OK ✅ (facture créée) — tes cours sont dans Mes cours.");
+      flash('success', "Paiement simulé (facture créée) — tes cours sont dans Mes cours.");
       header("Location: my_courses.php");
       exit;
 
