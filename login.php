@@ -13,11 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $password = $_POST['password'] ?? '';
 
   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-  $error = "Identifiants invalides";
+    $error = "Identifiants invalides";
   } else {
-      $stmt = $pdo->prepare("SELECT id, name, email, password, role FROM users WHERE email = :email");
-      $stmt->execute(['email' => $email]);
-      $user = $stmt->fetch();
+    $stmt = $pdo->prepare("SELECT id, name, email, password, role FROM users WHERE email = :email");
+    $stmt->execute(['email' => $email]);
+    $user = $stmt->fetch();
   }
 
   if (!$user || !password_verify($password, $user['password'])) {
@@ -41,6 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <p><input name="email" placeholder="Email" required></p>
   <p><input type="password" name="password" placeholder="Mot de passe" required></p>
   <button class="btn btn-primary">Se connecter</button>
+
+  <p style="margin-top:10px">
+    Pas encore de compte ? <a href="register.php">S'inscrire</a>
+  </p>
 </form>
 
 <?php if ($error) echo "<p style='color:red'>".e($error)."</p>"; ?>

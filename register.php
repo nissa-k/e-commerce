@@ -54,6 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <p><input type="password" name="password" placeholder="Mot de passe" required></p>
   <p><input type="password" name="password2" placeholder="Confirmer" required></p>
   <button class="btn btn-primary">S'inscrire</button>
+
+  <p style="margin-top:10px">
+    Avez-vous déjà un compte ? <a href="login.php">Se connecter</a>
+  </p>
 </form>
 
 <?php foreach ($errors as $eMsg) echo "<p style='color:red'>".e($eMsg)."</p>"; ?>
