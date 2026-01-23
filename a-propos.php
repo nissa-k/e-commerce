@@ -14,7 +14,7 @@ et d’un espace administrateur.
 
 <h2>Objectifs du projet</h2>
 <ul>
-  <li>Mettre en pratique le développement web en PHP</li>
+  <li>Mettre en pratique le développement web en PHP, HTML et CSS</li>
   <li>Appliquer les bonnes pratiques de sécurité (sessions, CSRF, mots de passe)</li>
   <li>Structurer une application web dynamique</li>
 </ul>
@@ -29,7 +29,10 @@ et d’un espace administrateur.
 <h2>Cadre pédagogique</h2>
 <p>
 Ce site n’a aucune vocation commerciale réelle. Toutes les commandes et paiements sont fictifs
-et réalisés à des fins d’apprentissage.
+et réalisés à des fins d’apprentissage dans le developpement web. 
+Les données des utilisateurs sont stockées uniquement pour le bon fonctionnement de l’application aucune information ne sera 
+utilisée à des fins commerciales ou partagée avec des tiers.
+Votre securité et votre vie privée sont respectées et protégées.
 </p>
 
 <?php require __DIR__ . "/includes/footer.php"; ?>

@@ -11,3 +11,4 @@ body { font-family: Arial, sans-serif; margin:0; background:#fafafa; }
 .btn-primary { background:#111; color:#fff; }
 .btn-danger { border-color:#b00; color:#b00; }
 .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
+

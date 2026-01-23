@@ -14,7 +14,7 @@ cartInit();
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= isset($pageTitle) ? e($pageTitle) : "E-Courses" ?></title>
-  <link rel="stylesheet" href="public/assets/style.css">
+  <link rel="stylesheet" href="/public/assets/style.css">
 </head>
 <body>
 <header class="topbar">
