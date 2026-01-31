@@ -55,7 +55,7 @@ $pageTitle = "Apprendre - " . $course['title'];
 <p><?= nl2br(e($course['description'])) ?></p>
 
 <?php if (!$sections): ?>
-  <p><em>Aucun contenu (sections/leçons) pour ce cours pour le moment.</em></p>
+  <p><em>Aucun contenu pour ce cours pour le moment. Veuillez ressayer plus tard.</em></p>
 <?php else: ?>
   <?php foreach ($sections as $s): ?>
     <div class="card">

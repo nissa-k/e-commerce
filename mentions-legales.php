@@ -8,8 +8,8 @@ require __DIR__ . "/includes/header.php";
 <h2>Éditeur du site</h2>
 <p>
 Ce site est un projet pédagogique réalisé dans le cadre d’un Bachelor Informatique.<br>
-Nom : <strong>Karadag Nissa</strong><br>
-Email : <strong>nissa.karadag@ynov.com</strong>
+Nom : <strong>Karadag Nissa, Mallipoudy Sriram, Elabdallaoui Sami</strong><br>
+Email : <strong>nissa.karadag@ynov.com | sriramsourya.mallipoudy@ynov.com | sami.elabdallaoui@ynov.com</strong>
 </p>
 
 <h2>Hébergement</h2>
@@ -37,7 +37,7 @@ Ce site utilise des cookies de session strictement nécessaires à l’authentif
 
 <h2>Contact</h2>
 <p>
-Pour toute question, vous pouvez contacter : <strong>nissa.karadag@ynov.com</strong>
+Pour toute question, vous pouvez contacter : <strong>nissa.karadag@ynov.com | sriramsourya.mallipoudy@ynov.com | sami.elabdallaoui@ynov.com</strong>
 </p>
 
 <?php require __DIR__ . "/includes/footer.php"; ?>

@@ -5,15 +5,6 @@ require __DIR__ . "/includes/header.php";
 
 $cats = $pdo->query("SELECT id, slug, image, name FROM categories ORDER BY id")->fetchAll();
 ?>
-<style>
-  .img {
-      width: 100%;
-      height: 160;
-      object-fit: cover;
-      border-radius: 8px;
-      display: block;
-  }
-</style>
 <h1>Plateforme de vente de cours</h1>
 <p>Choisis une catégorie et achète des cours en ligne.</p>
 

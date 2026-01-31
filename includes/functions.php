@@ -1,9 +1,5 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
-  session_start();
-}
-
 function e($s): string {
   return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
 }

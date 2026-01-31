@@ -62,7 +62,7 @@ Ouvre :
 - `http://localhost/e-commerce/test_db.php`
 
 Résultat attendu :
-- `✅ DB OK`
+- ` DB OK`
 
 Si erreur :
 - vérifie `.env`

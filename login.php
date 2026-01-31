@@ -6,7 +6,7 @@ require __DIR__ . "/includes/header.php";
 $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Mitigation brute-force simple ralentie la page login de 200ms
+  // evite le brute-force simple ralentie la page login de 200ms
   usleep(200000); 
   verify_csrf();
   $email = trim($_POST['email'] ?? '');
