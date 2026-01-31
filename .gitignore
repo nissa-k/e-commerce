@@ -1,6 +1,10 @@
 # Environment / secrets
 .env
 
+# Uploads / generated content
+public/uploads/
+public/uploads/*
+
 # OS files
 .DS_Store
 Thumbs.db
