@@ -37,12 +37,15 @@ function cartInit(): void {
   }
 }
 
+// Ajoute un cours au panier
 function cartAdd(int $id, int $qty = 1): void {
   cartInit();
   $_SESSION['cart'][$id] = ($_SESSION['cart'][$id] ?? 0) + $qty;
   if ($_SESSION['cart'][$id] <= 0) unset($_SESSION['cart'][$id]);
 }
 
+
+// Retire un cours du panier
 function cartRemove(int $id): void {
   cartInit();
   unset($_SESSION['cart'][$id]);
@@ -57,6 +60,8 @@ function cartCount(): int {
   return array_sum($_SESSION['cart']);
 }
 
+// --- CSRF PROTECTION ---
+// Génère et retourne un token CSRF
 function csrf_token(): string {
   if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -64,10 +69,12 @@ function csrf_token(): string {
   return $_SESSION['csrf_token'];
 }
 
+// Génère le champ caché CSRF pour les formulaires
 function csrf_field(): string {
   return '<input type="hidden" name="csrf_token" value="' . e(csrf_token()) . '">';
 }
 
+// Vérifie le token CSRF dans les formulaires
 function verify_csrf(): void {
   $token = $_POST['csrf_token'] ?? '';
   if (!$token || empty($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $token)) {

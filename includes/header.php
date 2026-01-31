@@ -19,7 +19,7 @@ cartInit();
 <body>
 <header class="topbar">
   <div class="container">
-    <a class="brand" href="<?= $BASE_HREF ?>index.php">E-Courses</a>
+    <a class="brand" href="<?= $BASE_HREF ?>index.php">E-Cours</a>
 
     <span>
       <?= e($_SESSION['user']['name'] ?? '') ?>
