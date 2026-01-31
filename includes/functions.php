@@ -1,5 +1,6 @@
 <?php
 
+
 function e($s): string {
   return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
 }

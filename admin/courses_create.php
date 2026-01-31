@@ -22,29 +22,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($desc === '') $errors[] = "Description obligatoire";
   if ($categoryId <= 0) $errors[] = "Catégorie obligatoire";
 
-  $thumb = null;
-  if (!empty($_FILES['thumbnail']['name']) && $_FILES['thumbnail']['error'] === UPLOAD_ERR_OK) {
-    $ext = strtolower(pathinfo($_FILES['thumbnail']['name'], PATHINFO_EXTENSION));
+  // upload image (remplace thumbnail)
+  $image = null;
+  if (!empty($_FILES['image']['name']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+    $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
     $allowed = ['jpg','jpeg','png','webp'];
     if (!in_array($ext, $allowed, true)) {
       $errors[] = "Image invalide (jpg/jpeg/png/webp)";
     } else {
       @mkdir(__DIR__ . "/../public/uploads", 0777, true);
-      $thumb = uniqid("thumb_", true) . "." . $ext;
-      move_uploaded_file($_FILES['thumbnail']['tmp_name'], __DIR__ . "/../public/uploads/" . $thumb);
+      $image = uniqid("course_", true) . "." . $ext;
+      move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . "/../public/uploads/" . $image);
     }
   }
 
   if (!$errors) {
     try {
-      $stmt = $pdo->prepare("INSERT INTO courses(category_id,title,slug,description,price,level,thumbnail,published)
-                             VALUES(?,?,?,?,?,?,?,?)");
-      $stmt->execute([$categoryId, $title, $slug, $desc, $price, $level, $thumb, $published]);
+      $stmt = $pdo->prepare("
+        INSERT INTO courses(category_id,title,slug,description,price,level,image,published)
+        VALUES(?,?,?,?,?,?,?,?)
+      ");
+      $stmt->execute([$categoryId, $title, $slug, $desc, $price, $level, $image, $published]);
+
       flash('success', "Cours créé.");
       header("Location: courses_list.php");
       exit;
     } catch (Throwable $e) {
-      $errors[] = "Erreur : slug déjà utilisé ?";
+      $errors[] = $e->getMessage();
     }
   }
 }
@@ -77,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <p><textarea name="description" placeholder="Description" rows="6" required></textarea></p>
   <p><input type="number" step="0.01" name="price" placeholder="Prix" value="0"></p>
 
-  <p><input type="file" name="thumbnail" accept="image/*"></p>
+  <p><input type="file" name="image" accept="image/*"></p>
 
   <p><label><input type="checkbox" name="published" checked> Publié</label></p>
 

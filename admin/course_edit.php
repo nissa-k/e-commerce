@@ -1,7 +1,7 @@
 <?php
 $pageTitle = "Admin - Edit";
 require __DIR__ . "/../config/db.php";
-require __DIR__ . "includes/header.php";
+require __DIR__ . "/../includes/header.php";
 requireAdmin();
 
 $id = (int)($_GET['id'] ?? 0);
@@ -33,32 +33,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($desc === '') $errors[] = "Description obligatoire";
   if ($categoryId <= 0) $errors[] = "Catégorie obligatoire";
 
-  $thumb = $course['thumbnail'];
+  // image actuelle (au cas où on ne change pas l'image)
+  $image = $course['image'] ?? null;
 
-  if (!empty($_FILES['thumbnail']['name']) && $_FILES['thumbnail']['error'] === UPLOAD_ERR_OK) {
-    $ext = strtolower(pathinfo($_FILES['thumbnail']['name'], PATHINFO_EXTENSION));
+  // si nouvelle image uploadée
+  if (!empty($_FILES['image']['name']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+    $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
     $allowed = ['jpg','jpeg','png','webp'];
     if (!in_array($ext, $allowed, true)) {
       $errors[] = "Image invalide (jpg/jpeg/png/webp)";
     } else {
       @mkdir(__DIR__ . "/../public/uploads", 0777, true);
-      $thumb = uniqid("thumb_", true) . "." . $ext;
-      move_uploaded_file($_FILES['thumbnail']['tmp_name'], __DIR__ . "/../public/uploads/" . $thumb);
+      $image = uniqid("course_", true) . "." . $ext;
+      move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . "/../public/uploads/" . $image);
     }
   }
 
   if (!$errors) {
     try {
       $upd = $pdo->prepare("UPDATE courses
-                            SET category_id=?, title=?, slug=?, description=?, price=?, level=?, thumbnail=?, published=?
+                            SET category_id=?, title=?, slug=?, description=?, price=?, level=?, image=?, published=?
                             WHERE id=?");
-      $upd->execute([$categoryId, $title, $slug, $desc, $price, $level, $thumb, $published, $id]);
+      $upd->execute([$categoryId, $title, $slug, $desc, $price, $level, $image, $published, $id]);
 
       flash('success', "Cours mis à jour.");
       header("Location: courses_list.php");
       exit;
     } catch (Throwable $e) {
-      $errors[] = "Erreur : slug déjà utilisé ?";
+      $errors[] = $e->getMessage();
     }
   }
 }
@@ -92,8 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <p><textarea name="description" rows="6" required><?= e($course['description']) ?></textarea></p>
   <p><input type="number" step="0.01" name="price" value="<?= e((string)$course['price']) ?>"></p>
 
-  <p>Thumbnail actuelle : <?= $course['thumbnail'] ? e($course['thumbnail']) : '-' ?></p>
-  <p><input type="file" name="thumbnail" accept="image/*"></p>
+  <p>Image actuelle : <?= !empty($course['image']) ? e($course['image']) : '-' ?></p>
+  <p><input type="file" name="image" accept="image/*"></p>
 
   <p><label><input type="checkbox" name="published" <?= (int)$course['published'] ? 'checked' : '' ?>> Publié</label></p>
 
