@@ -11,9 +11,15 @@ $cats = $pdo->query("SELECT id, slug, image, name FROM categories ORDER BY id")-
 <div class="grid">
   <?php foreach ($cats as $c): ?>
     <div class="card">
+
       <img src="public/uploads/<?= e($c['image']) ?>" alt="<?= e($c['name']) ?>" class="img">
 
+      <p class="muted" style="margin-top:10px">
+        Découvre nos cours dédiés à la catégorie <strong><?= e($c['name']) ?></strong>.
+      </p>
+
       <h3><?= e($c['name']) ?></h3>
+      
       <a class="btn btn-primary" href="courses.php?cat=<?= urlencode($c['slug']) ?>">Voir les cours</a>
     </div>
   <?php endforeach; ?>
