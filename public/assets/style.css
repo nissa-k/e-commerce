@@ -110,6 +110,7 @@ p {
   font-weight: 600;
   cursor: pointer;
   transition: all .2s ease;
+  width: fit-content;
 }
 
 .btn {
@@ -129,6 +130,11 @@ p {
 
 .btn:hover {
   opacity: 0.85;
+}
+
+.card .btn,
+.card .btn-primary {
+  align-self: flex-start;
 }
 
 .grid {
