@@ -28,10 +28,6 @@ $pageTitle = $course['title'];
 <h1><?= e($course['title']) ?></h1>
 <p><small class="muted"><?= e($course['category_name']) ?> • Niveau : <?= e($course['level']) ?></small></p>
 
-<?php if (!empty($course['image'])): ?>
-  <img src="public/uploads/<?= e($course['image']) ?>" alt="" style="max-width:100%;border-radius:8px">
-<?php endif; ?>
-
 <p><?= nl2br(e($course['description'])) ?></p>
 <p><strong><?= number_format((float)$course['price'], 2) ?> €</strong></p>
 

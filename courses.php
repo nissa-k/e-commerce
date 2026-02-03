@@ -30,15 +30,6 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $courses = $stmt->fetchAll();
 ?>
-<style>
-.img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 8px;
-    display: block;
-}
-</style>
 
 <h1>Catalogue</h1>
 
@@ -59,21 +50,26 @@ $courses = $stmt->fetchAll();
   <?php foreach ($courses as $c): ?>
     <div class="card">
 
-    <img src="public/uploads/<?= e($c['image']) ?>" alt="<?= e($c['title']) ?>" class="img">
+      <img src="public/uploads/<?= e($c['image']) ?>" alt="<?= e($c['title']) ?>" class="img">
 
       <h3><?= e($c['title']) ?></h3>
-      <p><small class="muted"><?= e($c['category_name']) ?> • <?= e($c['level']) ?></small></p>
+      <p class="muted"><?= e($c['category_name']) ?> • <?= e($c['level']) ?></p>
+
       <p><?= e(mb_strimwidth($c['description'], 0, 120, '...')) ?></p>
+
       <p><strong><?= number_format((float)$c['price'], 2) ?> €</strong></p>
 
-      <a class="btn" href="course.php?slug=<?= urlencode($c['slug']) ?>">Voir</a>
+      <div class="card-actions">
+        <a class="btn" href="course.php?slug=<?= urlencode($c['slug']) ?>">Voir</a>
 
-      <form method="post" action="cart.php" style="display:inline">
-        <?= csrf_field() ?>
-        <input type="hidden" name="action" value="add">
-        <input type="hidden" name="course_id" value="<?= (int)$c['id'] ?>">
-        <button class="btn btn-primary" type="submit">Ajouter</button>
-      </form>
+        <form method="post" action="cart.php">
+          <?= csrf_field() ?>
+          <input type="hidden" name="action" value="add">
+          <input type="hidden" name="course_id" value="<?= (int)$c['id'] ?>">
+          <button class="btn btn-primary" type="submit">Ajouter</button>
+        </form>
+      </div>
+
     </div>
   <?php endforeach; ?>
 </div>
