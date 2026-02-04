@@ -5,8 +5,12 @@ require __DIR__ . "/includes/header.php";
 
 cartInit();
 
+// Gérer les actions du panier (ajout, suppression, vider)
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   verify_csrf();
+
+  // Récupérer l'action et l'ID du cours depuis le formulaire
   $action = $_POST['action'] ?? '';
   $courseId = (int)($_POST['course_id'] ?? 0);
 
@@ -32,16 +36,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
+// Récupérer les cours dans le panier et calculer le total
 $ids = array_keys($_SESSION['cart']);
 $courses = [];
 $total = 0.0;
 
+// Si le panier n'est pas vide, récupérer les détails des cours
 if ($ids) {
   $in = implode(',', array_fill(0, count($ids), '?'));
   $stmt = $pdo->prepare("SELECT id,title,slug,price FROM courses WHERE id IN ($in) AND published=1");
   $stmt->execute($ids);
   $courses = $stmt->fetchAll();
 
+  // Calculer le total du panier en fonction des prix et quantités
   foreach ($courses as $c) {
     $qty = (int)($_SESSION['cart'][$c['id']] ?? 0);
     $total += (float)$c['price'] * $qty;
@@ -62,11 +69,13 @@ if ($ids) {
       </tr>
     </thead>
     <tbody>
+      <!-- Afficher chaque cours dans le panier avec ses détails et une option pour le supprimer -->
       <?php foreach ($courses as $c): 
         $qty = (int)($_SESSION['cart'][$c['id']] ?? 0);
         $line = (float)$c['price'] * $qty;
       ?>
       <tr>
+        <!-- Lien vers la page du cours avec son titre -->
         <td><a href="course.php?slug=<?= urlencode($c['slug']) ?>"><?= e($c['title']) ?></a></td>
         <td><?= number_format((float)$c['price'], 2) ?> €</td>
         <td><?= $qty ?></td>
