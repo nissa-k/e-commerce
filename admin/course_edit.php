@@ -4,6 +4,7 @@ require __DIR__ . "/../config/db.php";
 require __DIR__ . "/../includes/header.php";
 requireAdmin();
 
+// Récupérer l'ID du cours à éditer
 $id = (int)($_GET['id'] ?? 0);
 $stmt = $pdo->prepare("SELECT * FROM courses WHERE id=?");
 $stmt->execute([$id]);
@@ -15,9 +16,11 @@ if (!$course) {
   exit;
 }
 
+// Récupérer les catégories pour le select
 $cats = $pdo->query("SELECT id,name FROM categories ORDER BY name")->fetchAll();
 $errors = [];
 
+// Traitement du formulaire de modification
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   verify_csrf();
   $title = trim($_POST['title'] ?? '');
@@ -50,7 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   if (!$errors) {
-    try {
+    try { 
+      // Mettre à jour le cours dans la base de données upd = update
       $upd = $pdo->prepare("UPDATE courses
                             SET category_id=?, title=?, slug=?, description=?, price=?, level=?, image=?, published=?
                             WHERE id=?");
@@ -59,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       flash('success', "Cours mis à jour.");
       header("Location: courses_list.php");
       exit;
+      //throwable c est pour attraper toutes les erreurs/exceptions
     } catch (Throwable $e) {
       $errors[] = $e->getMessage();
     }

@@ -4,9 +4,11 @@ require __DIR__ . "/../config/db.php";
 require __DIR__ . "/../includes/header.php";
 requireAdmin();
 
+// Récupérer les catégories pour le select
 $cats = $pdo->query("SELECT id, slug, name FROM categories ORDER BY name")->fetchAll();
 $errors = [];
 
+// Traitement du formulaire de création
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   verify_csrf();
   $title = trim($_POST['title'] ?? '');
@@ -22,22 +24,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($desc === '') $errors[] = "Description obligatoire";
   if ($categoryId <= 0) $errors[] = "Catégorie obligatoire";
 
-  // upload image (remplace thumbnail)
+  // upload image 
+  // image par défaut null car pas obligatoire
   $image = null;
+
+  // si nouvelle image uploadée
   if (!empty($_FILES['image']['name']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+
+  // valider l'extension de l'image
     $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+
+    // extensions autorisées
     $allowed = ['jpg','jpeg','png','webp'];
     if (!in_array($ext, $allowed, true)) {
       $errors[] = "Image invalide (jpg/jpeg/png/webp)";
     } else {
+      // créer le dossier uploads s'il n'existe pas et déplacer le fichier uploadé là-bas 
       @mkdir(__DIR__ . "/../public/uploads", 0777, true);
+
+      // nom unique pour l'image
       $image = uniqid("course_", true) . "." . $ext;
+
+      // Déplacer le fichier uploadé
       move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . "/../public/uploads/" . $image);
     }
   }
 
   if (!$errors) {
     try {
+      // Insérer le cours dans la base de données
       $stmt = $pdo->prepare("
         INSERT INTO courses(category_id,title,slug,description,price,level,image,published)
         VALUES(?,?,?,?,?,?,?,?)

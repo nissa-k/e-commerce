@@ -3,6 +3,7 @@ $pageTitle = "Accueil";
 require __DIR__ . "/config/db.php";
 require __DIR__ . "/includes/header.php";
 
+// Récupérer les catégories pour l'affichage sur la page d'accueil fetchAll sert a recuperer toutes les lignes 
 $cats = $pdo->query("SELECT id, slug, image, name FROM categories ORDER BY id")->fetchAll();
 ?>
 <h1>Plateforme de vente de cours</h1>

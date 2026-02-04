@@ -5,6 +5,7 @@ require __DIR__ . "/includes/header.php";
 
 $errors = [];
 
+// Traitement du formulaire d'inscription si c est un POST request 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   verify_csrf();
   $name = trim($_POST['name'] ?? '');
@@ -12,11 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $password = $_POST['password'] ?? '';
   $password2 = $_POST['password2'] ?? '';
 
+  //contrôles basiques de saisie
   if ($name === '') $errors[] = "Nom obligatoire";
   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = "Email invalide";
   if (strlen($password) < 6) $errors[] = "Mot de passe trop court (min 6)";
+
+  // Vérifier la confirmation du mot de passe
   if ($password !== $password2) $errors[] = "Les mots de passe ne correspondent pas";
 
+  // Vérifier si l'email est déjà utilisé
   if (!$errors) {
     $stmt = $pdo->prepare("SELECT id FROM users WHERE email = :email");
     $stmt->execute(['email' => $email]);
@@ -24,14 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   if (!$errors) {
-
+// Tout est bon, créer l'utilisateur
+  // Hasher le mot de passe pour la base de données
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
+    // Insérer dans la base de données
     $stmt = $pdo->prepare(
       "INSERT INTO users (name, email, password, role)
        VALUES (:n, :e, :p, 'user')"
     );
 
+    // Exécuter l'insertion
     $stmt->execute([
       'n' => $name,
       'e' => $email,

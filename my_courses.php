@@ -5,11 +5,14 @@ require __DIR__ . "/includes/header.php";
 
 requireLogin();
 
+// Récupérer les cours achetés par l'utilisateur
 $stmt = $pdo->prepare("SELECT c.id, c.title, c.slug, c.description
                        FROM enrollments e
                        JOIN courses c ON c.id = e.course_id
                        WHERE e.user_id = ?
                        ORDER BY e.created_at DESC");
+
+// Exécuter la requête
 $stmt->execute([(int)$_SESSION['user']['id']]);
 $courses = $stmt->fetchAll();
 ?>

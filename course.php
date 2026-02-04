@@ -2,6 +2,7 @@
 require __DIR__ . "/config/db.php";
 require __DIR__ . "/includes/header.php";
 
+// Récupérer le cours par son slug
 $slug = trim($_GET['slug'] ?? '');
 if ($slug === '') {
   flash('error', "Cours introuvable.");
@@ -9,11 +10,14 @@ if ($slug === '') {
   exit;
 }
 
+// Préparer et exécuter la requête
 $stmt = $pdo->prepare("SELECT c.*, ca.name AS category_name
                        FROM courses c
                        JOIN categories ca ON ca.id=c.category_id
                        WHERE c.slug=:slug AND c.published=1");
 $stmt->execute(['slug' => $slug]);
+
+// Récupérer le cours bonne pratique eviter SQL injection
 $course = $stmt->fetch();
 
 if (!$course) {
@@ -22,6 +26,7 @@ if (!$course) {
   exit;
 }
 
+// Définir le titre de la page
 $pageTitle = $course['title'];
 ?>
 

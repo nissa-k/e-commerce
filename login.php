@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $email = trim($_POST['email'] ?? '');
   $password = $_POST['password'] ?? '';
 
+  // Validation basique de l'email
   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $error = "Identifiants invalides";
   } else {
@@ -20,10 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $stmt->fetch();
   }
 
+  // Vérification du mot de passe 
   if (!$user || !password_verify($password, $user['password'])) {
     $error = "Identifiants invalides";
   } else {
     
+  // Connexion réussie
     unset($user['password']);
     $_SESSION['user'] = $user;
     session_regenerate_id(true);

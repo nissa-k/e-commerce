@@ -5,8 +5,11 @@ require __DIR__ . "/../includes/functions.php";
 
 $error = null;
 
+// Traitement du formulaire de connexion admin
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   verify_csrf();
+
+  // Récupérer les données du formulaire avec trim pour enlever les espaces inutiles et post pour récupérer les données envoyées par l'utilisateur ou c est email et password
   $email = trim($_POST['email'] ?? '');
   $password = $_POST['password'] ?? '';
 
@@ -14,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $stmt->execute(['email' => $email]);
   $user = $stmt->fetch();
 
+  // Vérification du mot de passe et du rôle admin
   if (!$user || !password_verify($password, $user['password']) || $user['role'] !== 'admin') {
     $error = "Accès admin refusé";
   } else {

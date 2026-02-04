@@ -13,6 +13,7 @@ if (!$ids) {
   exit;
 }
 
+// Récupérer les cours du panier
 $in = implode(',', array_fill(0, count($ids), '?'));
 $stmt = $pdo->prepare("SELECT id,title,price FROM courses WHERE id IN ($in) AND published=1");
 $stmt->execute($ids);
@@ -33,6 +34,7 @@ foreach ($courses as $c) {
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // Validation CSRF token 
   verify_csrf();
   $address = trim($_POST['billing_address'] ?? '');
   $city = trim($_POST['city'] ?? '');
@@ -71,13 +73,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $pay = $pdo->prepare("INSERT INTO payments(order_id, provider, status) VALUES(?,?,?)");
       $pay->execute([$orderId, 'fake', 'succeeded']);
 
+      // Commit transaction
       $pdo->commit();
 
+      // Vider le panier et rediriger
       cartClear();
       flash('success', "Paiement simulé (facture créée) — tes cours sont dans Mes cours.");
+
+      // Redirection vers mes cours
       header("Location: my_courses.php");
       exit;
 
+     // Rollback et message d'erreur en cas de problème
     } catch (Throwable $e) {
       $pdo->rollBack();
       $errors[] = "Erreur checkout : " . $e->getMessage();
@@ -104,6 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <a class="btn" href="cart.php">Retour</a>
 </form>
 
+<!-- Affichage des erreurs -->
 <?php foreach ($errors as $eMsg): ?>
   <p style="color:red"><?= e($eMsg) ?></p>
 <?php endforeach; ?>

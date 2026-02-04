@@ -4,6 +4,7 @@ require __DIR__ . "/../config/db.php";
 require __DIR__ . "/../includes/header.php";
 requireAdmin();
 
+// Récupérer tous les cours avec leur catégorie
 $courses = $pdo->query("SELECT c.id, c.title, c.slug, c.price, c.level, c.published, ca.name AS category_name
                         FROM courses c
                         JOIN categories ca ON ca.id=c.category_id

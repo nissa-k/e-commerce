@@ -6,6 +6,7 @@ require __DIR__ . "/../includes/header.php";
 
 requireAdmin();
 
+// Récupérer l'ID du cours à supprimer
 $id = (int)($_GET['id'] ?? 0);
 $pdo->prepare("DELETE FROM courses WHERE id=?")->execute([$id]);
 

@@ -4,6 +4,7 @@ require __DIR__ . "/../config/db.php";
 require __DIR__ . "/../includes/header.php";
 requireAdmin();
 
+// Récupérer tous les utilisateurs dans l'ordre décroissant de création
 $users = $pdo->query("SELECT id,name,email,role,created_at FROM users ORDER BY created_at DESC")->fetchAll();
 ?>
 

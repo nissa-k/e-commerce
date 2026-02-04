@@ -1,10 +1,11 @@
 <?php
 
-
+// Échappe une chaîne pour l'affichage HTML
 function e($s): string {
   return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
 }
 
+// Gestion des messages flash
 function flash(string $key, ?string $msg = null): ?string {
   if ($msg !== null) {
     $_SESSION['flash'][$key] = $msg;
@@ -15,6 +16,7 @@ function flash(string $key, ?string $msg = null): ?string {
   return $val;
 }
 
+// Vérifie si l'utilisateur est connecté
 function requireLogin(): void {
   if (!isset($_SESSION['user'])) {
     flash('error', "Tu dois être connecté.");
@@ -23,6 +25,7 @@ function requireLogin(): void {
   }
 }
 
+// Vérifie si l'utilisateur est admin
 function requireAdmin(): void {
   if (!isset($_SESSION['user']) || (($_SESSION['user']['role'] ?? '') !== 'admin')) {
     flash('error', "Accès admin refusé.");
@@ -32,9 +35,11 @@ function requireAdmin(): void {
 }
 
 // --- PANIER SESSION ---
+// Initialise le panier dans la session
 function cartInit(): void {
+  // Si le panier n'existe pas, le créer comme un tableau vide
   if (!isset($_SESSION['cart']) || !is_array($_SESSION['cart'])) {
-    $_SESSION['cart'] = []; // [course_id => qty]
+    $_SESSION['cart'] = []; 
   }
 }
 
@@ -52,10 +57,12 @@ function cartRemove(int $id): void {
   unset($_SESSION['cart'][$id]);
 }
 
+// Vide le panier
 function cartClear(): void {
   $_SESSION['cart'] = [];
 }
 
+// Compte le nombre total d'articles dans le panier
 function cartCount(): int {
   cartInit();
   return array_sum($_SESSION['cart']);

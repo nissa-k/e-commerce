@@ -4,6 +4,7 @@ require __DIR__ . "/includes/header.php";
 
 requireLogin();
 
+// Récupérer le cours par son slug avec vérification d'accès
 $slug = trim($_GET['slug'] ?? '');
 if ($slug === '') {
   flash('error', "Cours introuvable.");
@@ -48,6 +49,7 @@ if ($sections) {
   }
 }
 
+// Définir le titre de la page 
 $pageTitle = "Apprendre - " . $course['title'];
 ?>
 

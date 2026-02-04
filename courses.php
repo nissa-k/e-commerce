@@ -24,8 +24,10 @@ if ($q !== '') {
   $params['q'] = "%$q%";
 }
 
+// Trier par date de création décroissante
 $sql .= " ORDER BY c.created_at DESC";
 
+// Préparer et exécuter la requête
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $courses = $stmt->fetchAll();
