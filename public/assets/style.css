@@ -20,11 +20,11 @@ html, body {
   height: 100%;
 }
 
-about-section h1 {
+.about-section h1 {
   margin-top: 10px;
 }
 
-about-section p {
+.about-section p {
   margin-bottom: 20px;
 }
 body {

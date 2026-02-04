@@ -1,4 +1,4 @@
-# E-Courses — Site e-commerce dynamique PHP (Bachelor 2)
+# E-Cours — Site e-commerce dynamique PHP (Bachelor 2)
 
 Projet e-commerce dynamique en PHP (procedural + PDO) :  
 - Front-office : catalogue des cours, fiche cours, panier, checkout (paiement simulé), accès “Mes cours”.
@@ -7,7 +7,7 @@ Projet e-commerce dynamique en PHP (procedural + PDO) :
 - Base de données MySQL (PDO) + script SQL d’installation.
 
 ## Prérequis
-- WampServer (ou XAMPP/MAMP) avec :
+- WampServer (ou XAMPP/WAMP) avec :
   - PHP 8.x recommandé
   - MySQL/MariaDB
   - Extension PDO MySQL activée
@@ -147,4 +147,6 @@ Copier le code
 
 ### Auteur
 Karadag Nissa
+Mallipoudy Sriram
+El Abdellaoui Sami
 Projet réalisé dans le cadre de l’évaluation PHP Bachelor 2.
