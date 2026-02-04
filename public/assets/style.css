@@ -167,6 +167,11 @@ p {
   flex-direction: column;
 }
 
+.card > a.btn,
+.card > a.btn-primary {
+  margin-top: auto;
+}
+
 .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 15px 30px rgba(0,0,0,.08);
